@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RB MOTOS - Sorteio Moto FAN 125 2014</title>
+<style>
+  body { margin: 0; font-family: "Poppins", sans-serif; background-color: #fff; color: #333; }
+  header { background-color: #e60000; color: #fff; padding: 40px 20px; text-align: center; }
+  header h1 { font-size: 2em; margin-bottom: 10px; }
+  header p { font-size: 1.1em; margin: 0; }
+  section { padding: 30px 20px; text-align: center; }
+  .card { background-color: #fff; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px; margin: 20px auto; max-width: 700px; }
+  .card img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+  button, .btn { background-color: #e60000; color: #fff; border: none; border-radius: 10px; padding: 12px 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+  button:hover, .btn:hover { background-color: #cc0000; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; max-width: 600px; margin: 20px auto; }
+  .number { background-color: #00a859; color: #fff; border: 2px solid #00a859; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; }
+  .number.selected, .number.blocked { background-color: #e60000; border-color: #e60000; }
+  .number.blocked { cursor: not-allowed; }
+  form { background-color: #fff; border-radius: 15px; padding: 20px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  input, textarea { width: 98%; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+  label { font-weight: 600; }
+  .terms { font-size: 0.9em; text-align: left; margin-top: 15px; }
+  .pix-box { background-color: #fff7f7; border: 2px dashed #e60000; border-radius: 12px; padding: 20px; max-width: 500px; margin: 20px auto; }
+  .pix-box img { width: 50px; vertical-align: middle; margin-right: 10px; }
+  .pix-copy { background-color: #fff; border: 2px solid #e60000; border-radius: 8px; padding: 8px 15px; cursor: pointer; margin-top: 10px; font-weight: bold; color: #e60000; }
+  .pix-copy:hover { background-color: #e60000; color: #fff; }
+  footer { background-color: #e60000; color: #fff; padding: 15px; text-align: center; margin-top: 30px; }
+  @media (max-width: 768px) { .card { margin: 10px; } }
+  .error { color: red; font-size: 0.8em; margin-top: -5px; margin-bottom: 10px; display: none; }
+  .success { color: #e60000; font-size: 0.9em; margin-top: 5px; }
+  .instagram-container { display: flex; justify-content: center; margin: 20px 0; }
+  .instagram-embed { width: 100%; max-width: 400px; height: 600px; border: none; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .term-buttons { display: flex; gap: 10px; margin-top: 10px; }
+  .term-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
+  .term-btn.yes { background: #00a859; color: white; }
+  .term-btn.yes:hover { background: #008f4f; }
+  .term-btn.yes.selected { background: #00a859; color: white; }
+  .term-btn.no { background: #ff4444; color: white; }
+  .term-btn.no:hover { background: #e60000; }
+  .term-btn.no.selected { background: #ff4444; color: white; }
+  .instagram-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  @media (min-width: 768px) {
+    .instagram-buttons { flex-direction: row; justify-content: center; }
+  }
+  .moto-details { text-align: left; margin-top: 20px; }
+  .moto-details ul { padding-left: 20px; }
+  .moto-details li { margin-bottom: 8px; }
+  .file-input-container { 
+    margin: 15px 0; 
+    text-align: left; 
+    border: 2px dashed #e60000;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff7f7;
+    transition: 0.3s;
+  }
+  .file-input-container:hover {
+    background-color: #ffefef;
+  }
+  .file-input-label { 
+    display: block; 
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #e60000;
+  }
+  .file-input-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .file-input-custom::before {
+    content: "📎";
+    font-size: 1.2em;
+  }
+  .file-info {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>RB MOTOS - Sorteio Moto FAN 125 2014</h1>
+  <p>Participe e concorra a uma moto 100% revisada e com todas as peças originais!</p>
+</header>
+
+<section id="termos">
+  <div class="card">
+    <h2>Termos de Responsabilidade</h2>
+    <p>Esta é uma campanha promocional realizada pela RB MOTOS para arrecadar fundos para ampliação do negócio e oferecer benefícios aos participantes.  
+    O sorteio será realizado mediante a venda de 200 números no valor de R$ 100,00 cada.  
+    O prêmio (moto FAN 125 2014) será sorteado entre os participantes que adquirirem os números.  
+    A RB MOTOS se responsabiliza pela entrega do prêmio ao ganhador.  
+    O sorteio será realizado após a comercialização de todos os 200 números.  
+    O valor arrecadado será integralmente destinado à ampliação da RB MOTOS e ao custeio do prêmio.  
+    Somente maiores de 18 anos podem participar.</p>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="card">
+    <h2>Sobre a RB MOTOS</h2>
+    <p>A RB MOTOS é uma empresa especializada em mecânica de motos em geral, com anos de experiência no mercado. Estamos lançando esta campanha para arrecadar fundos que nos permitirão ampliar nosso negócio, oferecendo serviços ainda melhores para nossa clientela.</p>
+    <p>Como forma de agradecimento a todos que acreditarem e investirem em nosso crescimento, estamos sorteando uma moto FAN 125 2014, totalmente revisada e com todas as peças originais. Cada número custa R$ 100,00 e temos apenas 200 números disponíveis.</p>
+    
+    <div class="pix-box">
+      <img src="https://images.seeklogo.com/logo-png/50/2/pix-banco-central-brasil-logo-png_seeklogo-500502.png" alt="Pix Logo">
+      <span><strong>Para participar, faça um PIX para a chave:</strong><br>
+      <code id="pixKey">rbmotos.sorteio@email.com</code></span>
+      <div>
+        <button type="button" class="pix-copy" id="copyPix">Copiar Chave PIX</button>
+        <div class="success" id="copySuccess" style="display:none;">Chave PIX copiada com sucesso!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="premio">
+  <div class="card">
+    <h2>O Prêmio - Moto FAN 125 / 2014</h2>
+    <img src="./fan125..jpeg" alt="Foto da moto FAN 125" style="width:350px; margin:auto; display:block;" />
+    <img src="./2fan125.jpeg" alt="Outra foto da moto FAN 125" style="width:250px; margin:auto; display:block;" />
+    
+    <div class="moto-details">
+      <h3>Especificações e revisões realizadas:</h3>
+      <ul>
+        <li>Moto FAN 125 2014 - Cor: Vermelha</li>
+        <li>Documentação 100% em dia</li>
+        <li>Licenciamento válido até 2026</li>
+        <li>Moto com laudo aprovado 100% original</li>
+        <li>Caixa de direção nova</li>
+        <li>Freio a disco dianteiro e lona traseiro revisados</li>
+        <li>Sistema de partida elétrica funcionando perfeitamente</li>
+        <li>Rodas de liga leve Scud</li>
+        <li>Pneus Michelin novos sem câmera</li>
+        <li>Motor revisado com peças originais</li>
+        <li>Sistema elétrico totalmente verificado</li>
+        <li>Suspensão dianteira e traseira revisadas</li>
+        <li>Transmissão e embreagem ajustadas</li>
+        <li>Tanque de combustível limpo e sem ferrugem</li>
+        <li>Caretagem completa e em bom estado</li>
+        <li>Faróis e lanternas funcionando perfeitamente</li>
+        <li>Trava miolo ignição antifurto</li>
+        <li>Cavalete lateral cargo traseiro</li>
+        <li>Par manopla punho original Honda</li>
+        <li>Suporte celular Tomate original</li>
+        <li>Carregador de celular instaldo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="numeros">
+  <h2>Escolha seus números (01–200)</h2>
+  <p>Cada número custa R$ 100,00. Após a escolha, realize o pagamento via PIX e envie o comprovante.</p>
+  <div class="grid" id="numberGrid"></div>
+  <button type="button" id="confirmarBtn">Confirmar Números</button>
+</section>
+
+<section id="formulario">
+  <h2>Envie seus dados</h2>
+  <form id="form" autocomplete="off">
+    <label>Nome completo:</label>
+    <input type="text" id="nome" autocomplete="off">
+    <div class="error" id="nomeError"></div>
+
+    <label>CPF:</label>
+    <input type="text" id="cpf" maxlength="14" autocomplete="off">
+    <div class="error" id="cpfError"></div>
+
+    <label>E-mail:</label>
+    <input type="email" id="email" autocomplete="off">
+    <div class="error" id="emailError"></div>
+
+    <label>WhatsApp:</label>
+    <input type="text" id="whatsapp" maxlength="15" autocomplete="off">
+    <div class="error" id="whatsappError"></div>
+
+    <label>Números escolhidos:</label>
+    <textarea id="numerosEscolhidos" readonly></textarea>
+    <div class="error" id="numerosError"></div>
+
+    <div class="file-input-container">
+      <label class="file-input-label">Enviar comprovante PIX:</label>
+      <div class="file-input-custom">
+        <input type="file" id="comprovante" accept="image/*,.pdf" style="flex-grow: 1;">
+      </div>
+      <div class="file-info">Formatos aceitos: JPG, PNG, PDF (máx. 10MB)</div>
+      <div class="error" id="comprovanteError"></div>
+    </div>
+
+    <div class="terms">
+      <label>Li e aceito os termos de responsabilidade (somente maiores de 18 anos).</label>
+      <div class="term-buttons">
+        <button type="button" class="term-btn yes" id="termosSim">SIM</button>
+        <button type="button" class="term-btn no" id="termosNao">NÃO</button>
+      </div>
+      <div class="error" id="termosError"></div>
+    </div>
+
+    <p>Ao enviar este formulário, seus dados e o comprovante PIX serão encaminhados automaticamente para a RB MOTOS.</p>
+
+    <button type="submit">Enviar Formulário</button>
+  </form>
+</section>
+
+<footer>
+  <p>© 2025 | RB MOTOS - Mecânica em Geral | Sorteio Moto FAN 125 2014</p>
+</footer>
+
+<script>
+  // Variável para armazenar a escolha dos termos
+  let termosAceitos = false;
+
+  // Função para copiar a chave PIX
+  document.getElementById('copyPix').addEventListener('click', function() {
+    const pixKey = document.getElementById('pixKey').textContent;
+    navigator.clipboard.writeText(pixKey).then(function() {
+      const successMsg = document.getElementById('copySuccess');
+      successMsg.style.display = 'block';
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 3000);
+    }).catch(function(err) {
+      alert('Erro ao copiar a chave PIX: ' + err);
+    });
+  });
+
+  // Sistema de números
+  const grid = document.getElementById("numberGrid");
+  const selectedNumbers = new Set();
+  
+  // NÚMEROS BLOQUEADOS - ADICIONE AQUI OS NÚMEROS QUE JÁ FORAM VENDIDOS
+  const blockedNumbers = [33, 51]; // Exemplo
+
+  for (let i = 1; i <= 200; i++) {
+    const btn = document.createElement("div");
+    btn.classList.add("number");
+    btn.textContent = i.toString().padStart(2, "0");
+
+    if (blockedNumbers.includes(i)) {
+      btn.classList.add("blocked");
+    } else {
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("selected");
+        if (btn.classList.contains("selected")) selectedNumbers.add(i);
+        else selectedNumbers.delete(i);
+      });
+    }
+    grid.appendChild(btn);
+  }
+
+  document.getElementById("confirmarBtn").addEventListener("click", () => {
+    if (selectedNumbers.size === 0) {
+      alert("Escolha pelo menos um número antes de confirmar!");
+      return;
+    }
+    document.getElementById("numerosEscolhidos").value = Array.from(selectedNumbers).sort((a, b) => a - b).join(", ");
+    alert("Números confirmados! Agora preencha o formulário abaixo.");
+  });
+
+  // Botões SIM/NÃO para os termos
+  document.getElementById("termosSim").addEventListener("click", function() {
+    termosAceitos = true;
+    this.classList.add("selected");
+    document.getElementById("termosNao").classList.remove("selected");
+    document.getElementById("termosError").style.display = 'none';
+  });
+
+  document.getElementById("termosNao").addEventListener("click", function() {
+    termosAceitos = false;
+    this.classList.add("selected");
+    document.getElementById("termosSim").classList.remove("selected");
+    document.getElementById("termosError").style.display = 'none';
+  });
+
+  // Formatação de CPF
+  const cpfInput = document.getElementById("cpf");
+  cpfInput.addEventListener("input", () => {
+    let v = cpfInput.value.replace(/\D/g, "");
+    if (v.length > 9) cpfInput.value = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+    else if (v.length > 6) cpfInput.value = v.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+    else if (v.length > 3) cpfInput.value = v.replace(/(\d{3})(\d{0,3})/, "$1.$2");
+    else cpfInput.value = v;
+  });
+
+  // Formatação de WhatsApp
+  const whatsappInput = document.getElementById("whatsapp");
+  whatsappInput.addEventListener("input", () => {
+    let v = whatsappInput.value.replace(/\D/g, "");
+    if (v.length > 10) whatsappInput.value = v.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    else if (v.length > 6) whatsappInput.value = v.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+    else if (v.length > 2) whatsappInput.value = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+    else whatsappInput.value = v;
+  });
+
+  // Validação de CPF
+  function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]+/g,'');
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+    
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+      soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = 11 - (soma % 11);
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(9))) return false;
+    
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+      soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = 11 - (soma % 11);
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpf.charAt(10))) return false;
+    
+    return true;
+  }
+
+  // Validação do formulário
+  document.getElementById("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    // Resetar mensagens de erro
+    document.querySelectorAll('.error').forEach(el => {
+      el.style.display = 'none';
+    });
+
+    let isValid = true;
+
+    // Validar nome
+    const nome = document.getElementById("nome").value.trim();
+    if (!nome) {
+      document.getElementById("nomeError").textContent = "Nome completo é obrigatório";
+      document.getElementById("nomeError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar CPF
+    const cpf = document.getElementById("cpf").value;
+    if (!cpf) {
+      document.getElementById("cpfError").textContent = "CPF é obrigatório";
+      document.getElementById("cpfError").style.display = 'block';
+      isValid = false;
+    } else if (!validarCPF(cpf)) {
+      document.getElementById("cpfError").textContent = "CPF inválido";
+      document.getElementById("cpfError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar email
+    const email = document.getElementById("email").value.trim();
+    if (!email) {
+      document.getElementById("emailError").textContent = "E-mail é obrigatório";
+      document.getElementById("emailError").style.display = 'block';
+      isValid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      document.getElementById("emailError").textContent = "E-mail inválido";
+      document.getElementById("emailError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar WhatsApp
+    const whatsapp = document.getElementById("whatsapp").value;
+    const whatsappDigits = whatsapp.replace(/\D/g, '');
+    if (!whatsapp) {
+      document.getElementById("whatsappError").textContent = "WhatsApp é obrigatório";
+      document.getElementById("whatsappError").style.display = 'block';
+      isValid = false;
+    } else if (whatsappDigits.length !== 11) {
+      document.getElementById("whatsappError").textContent = "WhatsApp deve ter 11 dígitos";
+      document.getElementById("whatsappError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar números escolhidos
+    const numeros = document.getElementById("numerosEscolhidos").value;
+    if (!numeros) {
+      document.getElementById("numerosError").textContent = "É necessário confirmar os números escolhidos";
+      document.getElementById("numerosError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar comprovante
+    const comprovante = document.getElementById("comprovante").files[0];
+    if (!comprovante) {
+      document.getElementById("comprovanteError").textContent = "É necessário enviar o comprovante PIX";
+      document.getElementById("comprovanteError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Validar termos
+    if (!termosAceitos) {
+      document.getElementById("termosError").textContent = "Você deve aceitar os termos de responsabilidade";
+      document.getElementById("termosError").style.display = 'block';
+      isValid = false;
+    }
+
+    // Se houver algum erro, parar aqui
+    if (!isValid) {
+      return false;
+    }
+
+    // Se todas as validações passarem, enviar para Telegram
+    const mensagem = `*RB MOTOS - Sorteio Moto FAN 125 2014*\n\n` +
+      `👤 *Nome:* ${nome}\n` +
+      `🪪 *CPF:* ${cpf}\n` +
+      `📧 *Email:* ${email}\n` +
+      `📱 *WhatsApp:* ${whatsapp}\n` +
+      `🔢 *Números Escolhidos:* ${numeros}\n` +
+      `💰 *Valor Total:* R$ ${selectedNumbers.size * 100},00\n` +
+      `✅ *Termos de consentimento aceitos:* Sim\n\n` +
+      `📎 *Comprovante anexado:* Sim`;
+
+    // Configurações do Telegram Bot
+    const telegramBotToken = '8426895580:AAFhGSJ-wQDX196Plx1swj6Z2uL2Cxe2qLw'; // Substitua pelo token do seu bot
+    const telegramChatId = '6514701640'; // Substitua pelo seu chat ID
+
+    // Criar FormData para enviar mensagem e arquivo
+    const formData = new FormData();
+    formData.append('chat_id', telegramChatId);
+    formData.append('caption', mensagem);
+    formData.append('parse_mode', 'Markdown');
+    formData.append('document', comprovante);
+
+    // Enviar mensagem com arquivo para o Telegram via API
+    fetch(`https://api.telegram.org/bot${telegramBotToken}/sendDocument`, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        alert('Formulário enviado com sucesso para o Telegram!');
+      } else {
+        alert('Erro ao enviar formulário para o Telegram. Entre em contato diretamente.');
+      }
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+      alert('Erro de conexão. Entre em contato diretamente.');
+    });
+
+    // LIMPAR TODOS OS CAMPOS DO FORMULÁRIO APÓS O ENVIO
+    document.getElementById("form").reset();
+    document.getElementById("numerosEscolhidos").value = "";
+    selectedNumbers.clear();
+    document.querySelectorAll(".number.selected").forEach(el => el.classList.remove("selected"));
+    
+    // Resetar botões dos termos
+    termosAceitos = false;
+    document.getElementById("termosSim").classList.remove("selected");
+    document.getElementById("termosNao").classList.remove("selected");
+    
+    return false;
+  });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
